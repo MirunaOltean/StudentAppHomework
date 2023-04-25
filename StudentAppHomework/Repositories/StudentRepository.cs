@@ -27,7 +27,9 @@ namespace StudentAppHomework.Repositories
         public async Task<Student> GetCourseGradesForStudent(int studentId, string courseType)
         {
             var result = await _dbContext.Students
-               .Select(e => new Student
+                .Include(e => e.Grades)
+                .ThenInclude(e => e.CourseType)
+                .Select(e => new Student
                {
                    FirstName = e.FirstName,
                    LastName = e.LastName,
@@ -36,7 +38,8 @@ namespace StudentAppHomework.Repositories
                    Grades = e.Grades
                         .Where(g => g.CourseType.Name == courseType)
                         .OrderByDescending(g => g.Value)
-                        .ToList()
+                        .ToList(),
+                   User = e.User
                })
                .FirstOrDefaultAsync(e => e.Id == studentId);
 
@@ -50,7 +53,11 @@ namespace StudentAppHomework.Repositories
 
         public async Task<List<Student>> GetAllStudents()
         {
-            return await _dbContext.Students.ToListAsync();
+            return await _dbContext.Students
+                .Include(e => e.Class)
+                .Include(e => e.Grades)
+                .ThenInclude(e => e.CourseType)
+                .ToListAsync();
         }
 
         public async Task<Dictionary<int, List<Student>>> GetGroupedStudents()
@@ -66,13 +73,20 @@ namespace StudentAppHomework.Repositories
         public async Task<Student> GetStudentById(int id)
         {
             var result = await _dbContext.Students
+                .Include(e => e.Class)
                 .Include(e => e.Grades)
+                .ThenInclude(e => e.CourseType)
                 .Select(e => new Student()
                 {
                     FirstName = e.FirstName,
                     LastName = e.LastName,
                     Id = e.Id,
                     ClassId = e.ClassId,
+                    Address = e.Address,
+                    DateOfBirth = e.DateOfBirth,
+                    Email = e.Email, 
+                    User = e.User,
+                    Class = e.Class,
                     Grades = _dbContext.Grades
                          .Include(e => e.CourseType)
                          .Where(g => g.StudentId == e.Id)

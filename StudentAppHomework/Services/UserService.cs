@@ -102,6 +102,10 @@ namespace StudentAppHomework.Services
             }
             else return false;
         }
+        public async Task<Dictionary<string, List<UserDto>>> GetAllByRole()
+        {
+            return await _unitOfWork.Users.GetAllByRole();
+        }
 
         #endregion
     }

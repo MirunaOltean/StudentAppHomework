@@ -18,6 +18,7 @@ namespace StudentAppHomework.Controllers
             _userService = userService;
         }
 
+        #region Public Methods
         [HttpPost("/register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(RegisterDto payload)
@@ -86,5 +87,18 @@ namespace StudentAppHomework.Controllers
             return Ok("Hello teachers!");
         }
 
+        [HttpGet("get-all-by-role")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<IActionResult> GetAllByRole()
+        {
+            var result = await _userService.GetAllByRole();
+
+            if(result == null)
+            {
+                return BadRequest("Error in getting users!");
+            }
+            return Ok(result);
+        }
+        #endregion
     }
 }

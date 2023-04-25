@@ -1,4 +1,5 @@
-﻿using StudentAppHomework.DBContext;
+﻿using Microsoft.EntityFrameworkCore;
+using StudentAppHomework.DBContext;
 using StudentAppHomework.Models;
 
 namespace StudentAppHomework.Repositories
@@ -9,34 +10,27 @@ namespace StudentAppHomework.Repositories
         {
         }
 
-        public Task<bool> AddClass(Class newCLass)
+        public async Task<bool> AddClass(Class newCLass)
         {
-            throw new NotImplementedException();
+            var result = _dbContext.Add(newCLass);
+            await _dbContext.SaveChangesAsync();
+            return result.Entity.Id > -1;
         }
 
-        public Task<bool> DeleteClass(Class classToDelete)
+        public async Task<Class> GetClassById(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Classes.FirstOrDefaultAsync(e => e.Id == id);
         }
 
-        public Task<List<Class>> GetAllClasses()
+        public async Task<List<Class>> GetAllWithStudentCount()
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Student>> GetAllStudentsForClass(int classId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<User> GetClassById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateClass(Class classToUpdate)
-        {
-            throw new NotImplementedException();
+            return await _dbContext.Classes
+                .Include(c => c.Students)
+                .Select(c => new Class
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToListAsync();
         }
     }
 }

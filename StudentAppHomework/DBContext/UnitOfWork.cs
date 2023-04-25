@@ -8,6 +8,7 @@ namespace StudentAppHomework.DBContext
         public StudentRepository Students { get; }
         public ClassRepository Classes { get; }
         public UserRepository Users { get; }
+        public GradeRepository Grades { get; }
 
         private readonly StudentAppContext _dbContext;
 
@@ -16,13 +17,15 @@ namespace StudentAppHomework.DBContext
             StudentAppContext dbContext,
             StudentRepository studentsRepository,
             ClassRepository classes,
-            UserRepository users
+            UserRepository users,
+            GradeRepository grades
         )
         {
             _dbContext = dbContext;
             Students = studentsRepository;
             Classes = classes;
             Users = users;
+            Grades = grades;
         }
 
         public void SaveChanges()

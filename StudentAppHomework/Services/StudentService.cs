@@ -28,7 +28,7 @@ namespace StudentAppHomework.Services
                 return false;
             }
 
-            var result = await _unitOfWork.Students.GetStudentById(student.Id);
+            var result = await _unitOfWork.Students.GetStudentById(id);
             if (result == null)
             {
                 return false;
@@ -65,9 +65,7 @@ namespace StudentAppHomework.Services
 
         public async Task<Dictionary<int, List<Student>>> GetGroupedStudents()
         {
-            var results = await _unitOfWork.Students.GetGroupedStudents();
-
-            return results;
+            return await _unitOfWork.Students.GetGroupedStudents();
         }
 
         public async Task<List<GradeDto>> GetAllGradesForStudent(string accessToken)

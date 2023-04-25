@@ -32,8 +32,8 @@ namespace StudentAppHomework.Settings
             services.AddScoped<RepositoryBase>();
             services.AddScoped<ClassRepository>();
             services.AddScoped<UserRepository>();
-            services.AddScoped<StudentRepository>();
-            services.AddScoped<GradeRepository>();          
+            services.AddScoped<StudentRepository>();   
+            services.AddScoped<GradeRepository>();   
         }
     }
 }

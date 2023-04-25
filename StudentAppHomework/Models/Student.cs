@@ -19,9 +19,9 @@ public partial class Student
 
     public string Email { get; set; } = null!;
 
-    public virtual Class Class { get; set; } = null!;
+    public virtual Class Class { get; set; } = new Class();
 
     public virtual ICollection<Grade> Grades { get; set; } = new List<Grade>();
 
-    public virtual User User { get; set; } = null!;
+    public virtual User User { get; set; } = new User();
 }

@@ -14,7 +14,7 @@ namespace StudentAppHomework.Mappings
 
         public static StudentDto ToStudentDto(this Student student)
         {
-            if (student == null) return null;
+            if (student == null) return new StudentDto();
 
             var result = new StudentDto
             {
